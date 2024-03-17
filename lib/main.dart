@@ -24,15 +24,22 @@ class _ScrollToTopButtonState extends State<ScrollToTopButton> {
   int _currentIndex = 0;
 
   void _onTabTapped(int index) {
-    if (index == 0 && _showScrollToTopButton) {
+  if (index == 0) {
+    if (_showScrollToTopButton) {
       _scrollToTop();
     } else {
       setState(() {
-        _showScrollToTopButton = false;
+        _showScrollToTopButton==true  ; // Show the scroll-to-top button
         _currentIndex = index;
       });
     }
+  } else {
+    setState(() {
+      _showScrollToTopButton = false;
+      _currentIndex = index;
+    });
   }
+}
 
   void _scrollToTop() {
     _scrollController.animateTo(
@@ -56,7 +63,7 @@ class _ScrollToTopButtonState extends State<ScrollToTopButton> {
 
   void _scrollListener() {
     setState(() {
-      _showScrollToTopButton = _scrollController.offset >= 10.0;
+      _showScrollToTopButton = _scrollController.offset >= 320.0;
     });
   }
 
@@ -67,7 +74,7 @@ class _ScrollToTopButtonState extends State<ScrollToTopButton> {
         index: _currentIndex,
         children: [
           // Your pages
-          Home(controllers: _scrollController, updateShowButton: _updateShowButton),
+          Home(controllers: _scrollController,),
           Message(),
           Profile(),
         ],
@@ -104,18 +111,12 @@ class _ScrollToTopButtonState extends State<ScrollToTopButton> {
     );
   }
 
-  void _updateShowButton(bool show) {
-    setState(() {
-      _showScrollToTopButton = show;
-    });
-  }
 }
 
 class Home extends StatelessWidget {
   final ScrollController controllers;
-  final Function(bool) updateShowButton;
 
-  const Home({Key? key, required this.controllers, required this.updateShowButton}) : super(key: key);
+  const Home({Key? key, required this.controllers,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
